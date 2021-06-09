@@ -44,10 +44,17 @@
   :group 'bsl-ls
   :type 'file)
 
+(defcustom bsl-ls-config-path nil
+  "Path to language server configuration."
+  :group 'bsl-ls
+  :type '(choice (const :tag "None" nil) file))
+
 ;;;###autoload
 (defun bsl-ls-contact (_interactive)
   "Use this function with `eglot-server-programs'."
-  (list bsl-ls-java "-jar" bsl-ls-server-jar))
+  (nconc (list bsl-ls-java "-jar" bsl-ls-server-jar)
+         (when-let ((config-path bsl-ls-config-path))
+           (list "-c" config-path))))
 
 (provide 'bsl-ls)
 ;;; bsl-ls.el ends here
