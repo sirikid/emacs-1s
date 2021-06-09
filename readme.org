@@ -1,0 +1,6 @@
+* Integration with Eglot
+#+begin_src emacs-lisp :results silent
+(require 'eglot)
+(require 'bsl-ls)
+(add-to-list 'eglot-server-programs '(1s-mode . bsl-ls-contact))
+#+end_src
