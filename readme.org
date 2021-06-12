@@ -4,3 +4,14 @@
 (require 'bsl-ls)
 (add-to-list 'eglot-server-programs '(1s-mode . bsl-ls-contact))
 #+end_src
+
+* Integration with Lsp-Mode
+#+begin_src emacs-lisp
+(require 'lsp-mode)
+(require 'bsl-ls)
+(lsp-register-client
+ (make-lsp-client
+  :server-id 'bsl
+  :major-modes (list '1s-mode)
+  :new-connection (lsp-stdio-connection (bsl-ls-contact nil))))
+#+end_src
