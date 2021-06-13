@@ -1,4 +1,6 @@
 * Integration with Eglot
+Add the following snippet to your configuration:
+
 #+begin_src emacs-lisp :results silent
 (require 'eglot)
 (require 'bsl-ls)
@@ -6,6 +8,9 @@
 #+end_src
 
 * Integration with Lsp-Mode
+Set appropriate ~bsl-ls-java~ and ~bsl-ls-server-jar~, later must be
+an absolute path. Add the following snippet to your configuration:
+
 #+begin_src emacs-lisp :results silent
 (require 'lsp-mode)
 (require 'bsl-ls)
