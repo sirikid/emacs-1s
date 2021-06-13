@@ -6,9 +6,11 @@
 #+end_src
 
 * Integration with Lsp-Mode
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (require 'lsp-mode)
 (require 'bsl-ls)
+(add-to-list 'lsp-language-id-configuration
+             '(1s-mode . "onescript"))
 (lsp-register-client
  (make-lsp-client
   :server-id 'bsl
