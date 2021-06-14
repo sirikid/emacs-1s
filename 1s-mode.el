@@ -41,7 +41,9 @@
      (2 font-lock-function-name-face))
     (,(regexp-opt '("КонецПроцедуры" "Экспорт") 'symbols)
      . font-lock-keyword-face)
-    (,(regexp-opt '("Истина" "Ложь") 'symbols) . font-lock-constant-face))
+    (,(regexp-opt '("Истина" "Ложь" "Неопределено") 'symbols)
+     . font-lock-constant-face)
+    (,(rx symbol-start "&" (+ (syntax word)) symbol-end) . font-lock-type-face))
   ".")
 
 ;;;###autoload
