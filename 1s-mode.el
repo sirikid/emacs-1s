@@ -6,7 +6,7 @@
 ;; Keywords: languages
 ;; Homepage: https://work.in.progress
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -30,15 +30,39 @@
 (defgroup 1s '()
   "OneScript editing commands for Emacs."
   :group 'languages
-  :prefix "1s-mode-")
+  :prefix "1s-")
+
+(defvar 1s-font-lock-keywords
+  `((,(rx bol (* (syntax whitespace)) (group "#" (* (not (syntax whitespace)))))
+     . (1 font-lock-preprocessor-face))
+    (,(rx symbol-start (group "Процедура") (+ (syntax whitespace))
+          (group (+ (syntax word))))
+     (1 font-lock-keyword-face)
+     (2 font-lock-function-name-face))
+    (,(regexp-opt '("КонецПроцедуры" "Экспорт") 'symbols)
+     . font-lock-keyword-face)
+    (,(regexp-opt '("Истина" "Ложь") 'symbols) . font-lock-constant-face))
+  ".")
 
 ;;;###autoload
 (define-derived-mode 1s-mode prog-mode "OneScript"
   "Major mode for editing OneScript files."
-  :group '1s)
+  :group '1s
+
+  ;; comment
+  (setq-local comment-start "// ")
+  (setq-local comment-end "")
+
+  ;; syntax table
+  (modify-syntax-entry ?_ "w")
+  (modify-syntax-entry ?/ ". 12")
+  (modify-syntax-entry ?\n ">")
+
+  ;; font-lock
+  (setq font-lock-defaults '((1s-font-lock-keywords) nil nil nil)))
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist (cons (rx ".os" eos) #'1s-mode))
+(add-to-list 'auto-mode-alist (cons (rx "." (or "bsl" "os") eos) #'1s-mode))
 
 (provide '1s-mode)
 ;;; 1s-mode.el ends here
