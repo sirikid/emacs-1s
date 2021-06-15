@@ -6,7 +6,7 @@
 ;; Keywords: languages, processes
 ;; Homepage: https://work.in.progress
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.1") (1s-mode "0.1"))
+;; Package-Requires: ((emacs "25.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
