@@ -32,15 +32,49 @@
   :group 'languages
   :prefix "1s-")
 
+(defvar 1s--keywords
+  '("And" "И"
+    "Break" "Прервать"
+    "Continue" "Продолжить"
+    "Do" "Цикл"
+    "Each" "Каждого"
+    "ElsIf" "ИначеЕсли"
+    "Else" "Иначе"
+    "EndDo" "КонецЦикла"
+    "EndFunction" "КонецФункции"
+    "EndIf" "КонецЕсли"
+    "EndProcedure" "КонецПроцедуры"
+    "EndTry" "КонецПопытки"
+    "Except" "Исключение"
+    "Export" "Экспорт"
+    "For" "Для"
+    "Function" "Функция"
+    "Goto" "Перейти"
+    "If" "Если"
+    "In" "Из"
+    "New" "Новый"
+    "Not" "Не"
+    "Or" "Или"
+    ;; "Procedure" "Процедура"
+    "Raise" "ВызватьИсключение"
+    "Return" "Возврат"
+    "Then" "Тогда"
+    "Try" "Попытка"
+    "To" "По"
+    "Val" "Знач"
+    "Var" "Перем"
+    "While" "Пока")
+  "OneScript keywords.")
+
 (defvar 1s-font-lock-keywords
-  `((,(rx bol (* (syntax whitespace)) (group "#" (* (not (syntax whitespace)))))
+  `((,(rx bol (* (syntax whitespace)) (group "#" (+ (syntax word))))
      . (1 font-lock-preprocessor-face))
-    (,(rx symbol-start (group "Процедура") (+ (syntax whitespace))
-          (group (+ (syntax word))))
+    (,(regexp-opt 1s--keywords 'symbols) . font-lock-keyword-face)
+    ;; TODO: add support for functions
+    (,(rx symbol-start (group (or "Процедура" "Procedure"))
+          (+ (syntax whitespace)) (group (+ (syntax word))))
      (1 font-lock-keyword-face)
      (2 font-lock-function-name-face))
-    (,(regexp-opt '("КонецПроцедуры" "Экспорт") 'symbols)
-     . font-lock-keyword-face)
     (,(regexp-opt '("Истина" "Ложь" "Неопределено") 'symbols)
      . font-lock-constant-face)
     (,(rx symbol-start "&" (+ (syntax word)) symbol-end) . font-lock-type-face))
@@ -56,6 +90,7 @@
   (setq-local comment-end "")
 
   ;; syntax table
+  (modify-syntax-entry ?. "_")
   (modify-syntax-entry ?_ "w")
   (modify-syntax-entry ?/ ". 12")
   (modify-syntax-entry ?\n ">")
