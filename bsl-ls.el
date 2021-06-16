@@ -27,11 +27,9 @@
 
 ;;; Code:
 
-(require '1s-mode)
-
 (defgroup bsl-ls '()
   "Settings for BSL language server."
-  :group '1s
+  :group 'tools
   :prefix "bsl-ls-")
 
 (defcustom bsl-ls-java "java"
