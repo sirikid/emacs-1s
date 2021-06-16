@@ -1,24 +1,41 @@
-* Integration with Eglot
-Add the following snippet to your configuration:
+#+property: header-args:elisp :results silent
 
-#+begin_src emacs-lisp :results silent
-(require 'eglot)
+* Установка и настройка
+Склонируйте репозиторий и добавьте его в ~load-path~:
+#+begin_src elisp :eval no
+(add-to-list 'load-path "/path/to/emacs-1s")
+#+end_src
+
+** Настройка BSL language server
+Присвойте переменным подходящие значения:
+
+- ~bsl-ls-java~ :: исполняемый файл Java 11 или выше;
+
+- ~bsl-ls-server-jar~ :: абсолютный путь до jar-файла BSL.
+
+Пример:
+#+begin_src elisp
 (require 'bsl-ls)
+(setq bsl-ls-java "java")
+(setq bsl-ls-server-jar (expand-file-name "~/Downloads/bsl-language-server_nix/bsl-language-server/lib/app/bsl-language-server-0.18.1-exec.jar"))
+#+end_src
+
+* Интеграция с Eglot
+Добавьте в конфиг или выполните следующий фрагмент:
+#+begin_src elisp
+(require 'eglot)
 (add-to-list 'eglot-server-programs '(1s-mode . bsl-ls-contact))
 #+end_src
 
-* Integration with Lsp-Mode
-Set appropriate ~bsl-ls-java~ and ~bsl-ls-server-jar~, later must be
-an absolute path. Add the following snippet to your configuration:
-
-#+begin_src emacs-lisp :results silent
+* Интеграция с Lsp-Mode
+Добавьте в конфиг или выполните следующий фрагмент:
+#+begin_src elisp
 (require 'lsp-mode)
-(require 'bsl-ls)
 (add-to-list 'lsp-language-id-configuration
              '(1s-mode . "onescript"))
 (lsp-register-client
  (make-lsp-client
-  :server-id 'bsl
-  :major-modes (list '1s-mode)
+  :server 'bsl
+  :major-modes '(1s-mode)
   :new-connection (lsp-stdio-connection (bsl-ls-contact nil))))
 #+end_src
