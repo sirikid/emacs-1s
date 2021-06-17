@@ -48,7 +48,7 @@
     "Except" "Исключение"
     "Export" "Экспорт"
     "For" "Для"
-    "Function" "Функция"
+    ;; "Function" "Функция"
     "Goto" "Перейти"
     "If" "Если"
     "In" "Из"
@@ -70,8 +70,7 @@
   `((,(rx bol (* (syntax whitespace)) (group "#" (+ (syntax word))))
      . (1 font-lock-preprocessor-face))
     (,(regexp-opt 1s--keywords 'symbols) . font-lock-keyword-face)
-    ;; TODO: add support for functions
-    (,(rx symbol-start (group (or "Процедура" "Procedure"))
+    (,(rx symbol-start (group (or "Процедура" "Procedure" "Функция" "Function"))
           (+ (syntax whitespace)) (group (+ (syntax word))))
      (1 font-lock-keyword-face)
      (2 font-lock-function-name-face))
