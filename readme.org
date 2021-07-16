@@ -17,7 +17,7 @@
 #+begin_src elisp
 (require 'bsl-ls)
 (setq bsl-ls-java "java")
-(setq bsl-ls-server-jar (expand-file-name "~/Downloads/bsl-language-server_nix/bsl-language-server/lib/app/bsl-language-server-0.18.1-exec.jar"))
+(setq bsl-ls-server-jar (expand-file-name "~/downloads/bsl-language-server_nix/bsl-language-server/lib/app/bsl-language-server-0.18.1-exec.jar"))
 #+end_src
 
 * Интеграция с Eglot
@@ -35,7 +35,7 @@
              '(1s-mode . "onescript"))
 (lsp-register-client
  (make-lsp-client
-  :server 'bsl
+  :server-id 'bsl
   :major-modes '(1s-mode)
   :new-connection (lsp-stdio-connection (bsl-ls-contact nil))))
 #+end_src

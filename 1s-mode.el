@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(require '1s-smie)
+
 (defgroup 1s '()
   "OneScript editing commands for Emacs."
   :group 'languages
@@ -48,14 +50,14 @@
     "Except" "Исключение"
     "Export" "Экспорт"
     "For" "Для"
-    ;; "Function" "Функция"
+    "Function" "Функция"
     "Goto" "Перейти"
     "If" "Если"
     "In" "Из"
     "New" "Новый"
     "Not" "Не"
     "Or" "Или"
-    ;; "Procedure" "Процедура"
+    "Procedure" "Процедура"
     "Raise" "ВызватьИсключение"
     "Return" "Возврат"
     "Then" "Тогда"
@@ -76,7 +78,8 @@
      (2 font-lock-function-name-face))
     (,(regexp-opt '("Истина" "Ложь" "Неопределено") 'symbols)
      . font-lock-constant-face)
-    (,(rx symbol-start "&" (+ (syntax word)) symbol-end) . font-lock-type-face))
+    (,(rx symbol-start "&" (+ (syntax word)) symbol-end) . font-lock-type-face)
+    (,(rx "~" (+ (syntax word))) . font-lock-constant-face))
   ".")
 
 ;;;###autoload
@@ -89,13 +92,16 @@
   (setq-local comment-end "")
 
   ;; syntax table
-  (modify-syntax-entry ?. "_")
+  ;; (modify-syntax-entry ?. "_")
   (modify-syntax-entry ?_ "w")
   (modify-syntax-entry ?/ ". 12")
   (modify-syntax-entry ?\n ">")
 
   ;; font-lock
-  (setq font-lock-defaults '((1s-font-lock-keywords) nil nil nil)))
+  (setq font-lock-defaults '((1s-font-lock-keywords) nil nil nil))
+
+  ;; smie
+  (smie-setup 1s-smie-grammar #'1s-smie-rules-function))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist (cons (rx "." (or "bsl" "os") eos) #'1s-mode))
